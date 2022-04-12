@@ -1,6 +1,7 @@
 import sqlite3
 import os
-from typing import Callable, List, Optional
+from typing import Callable
+from pprint import pprint
 
 class DatabaseModel:
     def __init__(self, db_dir: str = f'{os.getcwd()}\\classes\\data', db_name: str = 'moviedata.db', tb_name: str = 'moviedetails'):
@@ -32,8 +33,8 @@ class DatabaseModel:
                            average STRING,
                            weight INT,
                            network STRING,
-                           id2 INT,
-                           name STRING,
+                           network_id INT,
+                           network_name STRING,
                            country STRING,
                            officialSite2 STRING,
                            dvdCountry STRING,
@@ -51,28 +52,24 @@ class DatabaseModel:
         self.conn.commit()
         
     def extact_and_parse_data(self, class_obj: Callable):
+        ls_of_all = []
         obj = class_obj()
         id_check = 0
         for i in obj:
             if i == 'id': id_check += 1
-
-            # If dictionary is in another dict then loop it
-            if isinstance(obj[i], dict):
-                
-                # Loop the second dict in a dict
-                for j in obj[i]:
-                    
-                    # If id was already used the rename it to id2
-                    if id_check == 1 and j == 'id':
-                        print(f'id2 - {obj[i][j]}')
-                    else:
-                        print(f'{j} - {obj[i][j]}')
             
-            # Otherwise just loop first loop
+            if isinstance(obj[i], dict):
+                for j in obj[i]:
+                    if (isinstance(obj[i][j], dict) and 'href' in obj[i][j]):
+                        for l in obj[i][j]:
+                            ls_of_all.append(obj[i][j]['href'])
+                    else:
+                        ls_of_all.append(obj[i][j])
             else:
-                print(f'{i} - {obj[i]}')
+                ls_of_all.append(obj[i])
+        pprint(ls_of_all)
 
 
-
-
+if __name__ == '__main__':
+    db = DatabaseModel(db_dir=f'{os.getcwd()}\\data')
 

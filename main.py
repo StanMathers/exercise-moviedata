@@ -7,10 +7,9 @@ def main():
     req = RequestToMaze()
     db = DatabaseModel()
     sh = ShortcutFuncs()
-    # sh.get_table_column_list(req.send_request)
-    db.extact_and_parse_data(req.send_request)
     
-    # db.extact_and_parse_data(req.send_request)
+    db.extact_and_parse_data(req.send_request)
+    db.extact_and_parse_data2(req.send_request)
 
 
 if __name__ == '__main__':

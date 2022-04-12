@@ -14,3 +14,7 @@ class RequestToMaze:
     
     def update_query_string(self, new_query_string: str) -> None:
         self.querystring = new_query_string
+
+req = RequestToMaze()
+print(req.send_request())
+

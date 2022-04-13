@@ -1,9 +1,34 @@
 import sqlite3
 import os
-from typing import Callable, List, Any
-from pprint import pprint
+from typing import Callable
+import pandas as pd
 
-class DatabaseModel:
+class SimpleQueryFuncs:
+    
+    def query_all_movies(self):
+        df = pd.read_sql_query(f'SELECT * FROM {self.tb_name}', self.conn)
+        return df
+    
+    def query_movie_by_id(self, id: int):
+        df = pd.read_sql_query(f'SELECT * FROM {self.tb_name} WHERE id = {id}', self.conn)
+        return df
+
+    def delete_movie_by_id(self, id: int):
+        self.c.execute(f'DELETE FROM {self.tb_name} WHERE id = {id}')
+        self.conn.commit()
+
+    def id_exists(self, id: int):
+        self.c.execute(f'SELECT id FROM {self.tb_name}')
+        if (id,) in self.c.fetchall():
+            return True
+        return False
+
+    def amount_of_records(self):
+        self.c.execute(f'SELECT * FROM {self.tb_name}')
+        return len(self.c.fetchall())
+    
+
+class DatabaseModel(SimpleQueryFuncs):
     def __init__(self, db_dir: str = f'{os.getcwd()}\\classes\\data', db_name: str = 'moviedata.db', tb_name: str = 'moviedetails'):
         self.db_dir = db_dir
         self.db_name = db_name
@@ -71,6 +96,7 @@ class DatabaseModel:
         # Casting
         ls_of_all[5] = str(ls_of_all[5])
         ls_of_all[13] = str(ls_of_all[13])
+        ls_of_all[18] = str(ls_of_all[18])
         ls_of_all[19] = str(ls_of_all[19])
                 
         # To tuple

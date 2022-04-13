@@ -3,6 +3,7 @@ from typing import Dict
 from pprint import pprint
 
 
+
 class RequestToMaze:
     
     def __init__(self):
@@ -13,7 +14,10 @@ class RequestToMaze:
         self.source = requests.get(self.api, params=self.querystring)
         return self.source.json()[0]['show'] # Returns the first dict of a list with show key only to parse into database
     
+    def first_movie_id(self):
+        return self.send_request()['id']
+    
     def update_query_string(self, new_query_string: str) -> None:
-        self.querystring = new_query_string
+        self.querystring['q'] = new_query_string
 
 

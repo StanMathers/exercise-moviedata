@@ -1,6 +1,6 @@
 import sqlite3
 import os
-from typing import Callable
+from typing import Callable, List, Any
 from pprint import pprint
 
 class DatabaseModel:
@@ -67,9 +67,17 @@ class DatabaseModel:
                         ls_of_all.append(obj[i][j])
             else:
                 ls_of_all.append(obj[i])
-        pprint(ls_of_all)
-
-
+        
+        # Casting
+        ls_of_all[5] = str(ls_of_all[5])
+        ls_of_all[13] = str(ls_of_all[13])
+        ls_of_all[19] = str(ls_of_all[19])
+                
+        # To tuple
+        ls_of_all = [tuple(ls_of_all)]
+        self.c.executemany(f'INSERT INTO {self.tb_name} VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', ls_of_all)
+        self.conn.commit()
+        
 if __name__ == '__main__':
     db = DatabaseModel(db_dir=f'{os.getcwd()}\\data')
 

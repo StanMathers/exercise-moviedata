@@ -81,3 +81,45 @@ class ShortcutFuncs:
         print(ls_of_all)
 
 '''
+
+
+
+
+"""
+self.c.execute(f'''
+                       CREATE TABLE IF NOT EXISTS {self.tb_name}(
+                           id INT UNIQUE,
+                           url STRING,
+                           name STRING,
+                           type STRING,
+                           language STRING,
+                           genres STRING,
+                           status STRING,
+                           runtime FLOAT,
+                           averageTime FLOAT,
+                           premiered DATE,
+                           ended DATE,
+                           officialSite STRING,
+                           time STRING,
+                           days STRING,
+                           average STRING,
+                           weight INT,
+                           network STRING,
+                           network_id INT,
+                           network_name STRING,
+                           country STRING,
+                           officialSite2 STRING,
+                           dvdCountry STRING,
+                           tvrage STRING,
+                           thetvdb STRING,
+                           imdb FLOAT,
+                           medium STRING,
+                           original STRING,
+                           summary STRING,
+                           updated INT,
+                           self STRING,
+                           previousepisode STRING
+                       )
+                       ''')
+        self.conn.commit()
+"""

@@ -38,9 +38,42 @@ def query_all_movies(db_model):
     print(db_model.query_all_movies())
 
 
+# Query by ID
+def query_by_id(db_model):
+    while True:
+        try:
+            movie_id = int(input('Movie ID: '))
+            if db_model.id_exists(movie_id):
+                print('')
+                db_model.query_movie_by_id(movie_id)
+                break
+            else:
+                print('Wrong ID')
+            
+        except ValueError:
+            print('Wrong type of data')
+        
+        except KeyboardInterrupt:
+            break
 
 
+def delete_movie_by_id(db_model):
+    while True:
+        try:
+            movie_id = int(input('Movie ID: '))
+            if db_model.id_exists(movie_id):
+                print('')
+                print(db_model.delete_movie_by_id(movie_id))
+                print('Movie was deleted successfully')
+                break
+            else:
+                print('Wrong ID')
+            
+        except ValueError:
+            print('Wrong type of data')
 
+        except KeyboardInterrupt:
+            break
 
 
 

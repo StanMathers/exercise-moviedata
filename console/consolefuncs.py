@@ -1,8 +1,8 @@
-
+from termcolor import colored
 
 def display_options(db_model):
-    print(f'\nAmount of record in database: {db_model.amount_of_records()}\n')
-    print('1. Search movie\n2. Query all movies\n3. Query movie by ID\n4. Delete movie by ID\n0. Exit')
+    print(colored(f'\nAmount of record in database: {db_model.amount_of_records()}\n', 'green'))
+    print(f'1. Search movie\n2. Query all movies\n3. Query movie by ID\n4. Delete movie by ID\n{colored("0. Exit", "red")}')
 
 # Subfunctions
 
@@ -16,18 +16,19 @@ def search_movies(request_model, db_model):
             ask_for_download(request_model, db_model)
             break
         else:
-            print('\nMovie was found in a database.\n')
+            print(colored('\nMovie was found in a database.\n', 'green'))
             print(db_model.query_movie_by_id(request_model.first_movie_id()))
             break
 
 def ask_for_download(request_model, db_model):
     while True:
         print('')
-        enter_cmd = input('Movie was not found in database. Would you like to download it? y/n: ').lower()
+        
+        enter_cmd = input(colored('Movie was not found in database. Would you like to download it? y/n: ', 'red')).lower()
         if enter_cmd == 'y':
             db_model.extact_and_parse_data(request_model.send_request)
             print(db_model.query_movie_by_id(request_model.first_movie_id()))
-            print('Movie was downloaded from website and saved to database')
+            print(colored('Movie was downloaded from website and saved to database', 'green'))
             break
 
         elif enter_cmd == 'n':

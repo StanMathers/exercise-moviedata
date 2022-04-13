@@ -4,13 +4,14 @@ from typing import Callable
 import pandas as pd
 
 class SimpleQueryFuncs:
+    DEFAULT_COLUMNS = 'id, name, language, type, status, premiered'
     
     def query_all_movies(self):
-        df = pd.read_sql_query(f'SELECT * FROM {self.tb_name}', self.conn)
+        df = pd.read_sql_query(f'SELECT {SimpleQueryFuncs.DEFAULT_COLUMNS} FROM {self.tb_name}', self.conn)
         return df
     
     def query_movie_by_id(self, id: int):
-        df = pd.read_sql_query(f'SELECT * FROM {self.tb_name} WHERE id = {id}', self.conn)
+        df = pd.read_sql_query(f'SELECT {SimpleQueryFuncs.DEFAULT_COLUMNS} FROM {self.tb_name} WHERE id = {id}', self.conn)
         return df
 
     def delete_movie_by_id(self, id: int):

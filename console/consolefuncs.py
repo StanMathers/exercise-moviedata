@@ -32,6 +32,10 @@ def ask_for_download(request_model, db_model):
 
         elif enter_cmd == 'n':
             break
+        
+# Query
+def query_all_movies(db_model):
+    print(db_model.query_all_movies())
 
 
 

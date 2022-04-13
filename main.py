@@ -2,7 +2,6 @@ from classes.dbmodel import *
 from classes.requestdata import *
 from classes.shortcutfuncs import *
 from console.consolefuncs import *
-from pprint import pprint
 
 
 def main():
@@ -19,6 +18,9 @@ def main():
         
         elif enter_command == '1':
             search_movies(req, db)
+        
+        elif enter_command == '2':
+            query_all_movies(db)
 
     
 if __name__ == '__main__':

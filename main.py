@@ -1,6 +1,5 @@
 from classes.dbmodel import *
 from classes.requestdata import *
-from classes.shortcutfuncs import *
 from console.consolefuncs import *
 
 

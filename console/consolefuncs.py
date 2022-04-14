@@ -48,7 +48,7 @@ def query_by_id(db_model):
             movie_id = int(input('Movie ID: '))
             if db_model.id_exists(movie_id):
                 print('')
-                db_model.query_movie_by_id(movie_id)
+                print(db_model.query_movie_by_id(movie_id))
                 break
             else:
                 print('Wrong ID')

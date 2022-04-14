@@ -1,7 +1,7 @@
 import sqlite3
 import os
-from typing import Callable, List
 import pandas as pd
+from typing import Callable, List
 
 class SimpleQueryFuncs:
     DEFAULT_COLUMNS = 'id, name, language, type, status, premiered'

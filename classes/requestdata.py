@@ -1,8 +1,5 @@
 import requests
 from typing import Dict
-from pprint import pprint
-
-
 
 class RequestToMaze:
     

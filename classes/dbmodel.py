@@ -17,6 +17,10 @@ class SimpleQueryFuncs:
     def delete_movie_by_id(self, id: int):
         self.c.execute(f'DELETE FROM {self.tb_name} WHERE id = {id}')
         self.conn.commit()
+    
+    def delete_all_movies(self):
+        self.c.execute(f'DELETE FROM {self.tb_name}')
+        self.conn.commit()
 
     def id_exists(self, id: int):
         self.c.execute(f'SELECT id FROM {self.tb_name}')

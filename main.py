@@ -28,6 +28,9 @@ def main():
             elif enter_command == 4:
                 delete_movie_by_id(db)
             
+            elif enter_command == 5:
+                trunc_table(db)
+            
         except ValueError:
             print('\nWrong type of data')
         except KeyboardInterrupt:

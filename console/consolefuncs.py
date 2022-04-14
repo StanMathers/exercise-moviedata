@@ -1,8 +1,7 @@
-from termcolor import colored
 
 def display_options(db_model):
-    print(colored(f'\nAmount of record in database: {db_model.amount_of_records()}\n', 'green'))
-    print(f'1. Search movie\n2. Query all movies\n3. Query movie by ID\n4. Delete movie by ID\n{colored("0. Exit", "red")}')
+    print(f'\nAmount of record in database: {db_model.amount_of_records()}\n')
+    print(f'1. Search movie\n2. Query all movies\n3. Query movie by ID\n4. Delete movie by ID\n5. Truncade table/delete all records\n0. Exit')
 
 # Subfunctions
 
@@ -16,24 +15,27 @@ def search_movies(request_model, db_model):
             ask_for_download(request_model, db_model)
             break
         else:
-            print(colored('\nMovie was found in a database.\n', 'green'))
+            print('\nMovie was found in a database.\n')
             print(db_model.query_movie_by_id(request_model.first_movie_id()))
             break
 
 def ask_for_download(request_model, db_model):
     while True:
         print('')
-        
-        enter_cmd = input(colored('Movie was not found in database. Would you like to download it? y/n: ', 'red')).lower()
-        if enter_cmd == 'y':
-            db_model.extact_and_parse_data(request_model.send_request)
-            print(db_model.query_movie_by_id(request_model.first_movie_id()))
-            print(colored('Movie was downloaded from website and saved to database', 'green'))
-            break
+        if request_model.send_request() != False:
+            
+            enter_cmd = input('Movie was not found in database. Would you like to download it? y/n: ').lower()
+            if enter_cmd == 'y':
+                db_model.extact_and_parse_data(request_model.send_request)
+                print(db_model.query_movie_by_id(request_model.first_movie_id()))
+                print('Movie was downloaded from website and saved to database')
+                break
 
-        elif enter_cmd == 'n':
+            elif enter_cmd == 'n':
+                break
+        else:
+            print('No records found neither in a website or database')
             break
-        
 # Query
 def query_all_movies(db_model):
     print(db_model.query_all_movies())
@@ -57,7 +59,7 @@ def query_by_id(db_model):
         except KeyboardInterrupt:
             break
 
-
+# Delete movie by ID
 def delete_movie_by_id(db_model):
     while True:
         try:
@@ -76,13 +78,17 @@ def delete_movie_by_id(db_model):
         except KeyboardInterrupt:
             break
 
-
-
-
-
-
-
-
+# Trunc table
+def trunc_table(db_model):
+    while True:
+        print('')
+        enter_choice = input('Are you sure you want to truncade the table? y/n: ').lower()
+        if enter_choice == 'y':
+            db_model.delete_all_movies()
+            print('Table was cleared successfully')
+            break
+        elif enter_choice == 'n':
+            break
 
 
 

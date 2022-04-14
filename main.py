@@ -7,7 +7,6 @@ from console.consolefuncs import *
 def main():
     req = RequestToMaze()
     db = DatabaseModel()
-    sh = ShortcutFuncs()
 
     while True:
         display_options(db)

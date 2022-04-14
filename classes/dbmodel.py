@@ -1,6 +1,6 @@
 import sqlite3
 import os
-from typing import Callable
+from typing import Callable, List
 import pandas as pd
 
 class SimpleQueryFuncs:
@@ -80,10 +80,8 @@ class DatabaseModel(SimpleQueryFuncs):
     def extact_and_parse_data(self, class_obj: Callable):
         ls_of_all = []
         obj = class_obj()
-        id_check = 0
+        
         for i in obj:
-            if i == 'id': id_check += 1
-            
             if isinstance(obj[i], dict):
                 for j in obj[i]:
                     if (isinstance(obj[i][j], dict) and 'href' in obj[i][j]):
@@ -93,18 +91,33 @@ class DatabaseModel(SimpleQueryFuncs):
                         ls_of_all.append(obj[i][j])
             else:
                 ls_of_all.append(obj[i])
+
+
+        self.__insert_into_db(ls_of_all)
+
+    def __insert_into_db(self, ls: List) -> None:
         
-        # Casting
-        ls_of_all[5] = str(ls_of_all[5])
-        ls_of_all[13] = str(ls_of_all[13])
-        ls_of_all[18] = str(ls_of_all[18])
-        ls_of_all[19] = str(ls_of_all[19])
+        try:
+            # Casting
+            ls[5] = str(ls[5])
+            ls[13] = str(ls[13])
+            ls[18] = str(ls[18])
+            ls[19] = str(ls[19])
+                    
+            # To tuple
+            ls_new = [tuple(ls)]
+            self.c.executemany(f'INSERT INTO {self.tb_name} VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', ls_new)
+            self.conn.commit()
+            
+        except sqlite3.ProgrammingError:
+            for i in range(31 - len(ls)):
+                ls.append(None)
                 
-        # To tuple
-        ls_of_all = [tuple(ls_of_all)]
-        self.c.executemany(f'INSERT INTO {self.tb_name} VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', ls_of_all)
-        self.conn.commit()
-        
+            ls_new = [tuple(ls)]
+            self.c.executemany(f'INSERT INTO {self.tb_name} VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', ls_new)
+            self.conn.commit()
+            
+            
 if __name__ == '__main__':
     db = DatabaseModel(db_dir=f'{os.getcwd()}\\data')
 
